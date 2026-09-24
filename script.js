@@ -12,6 +12,75 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".reveal").forEach(node => io.observe(node));
 
   const motionOK = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const setupPillNav = () => {
+    const nav = document.querySelector(".pill-nav");
+    const items = [...document.querySelectorAll(".pill-nav .pill")];
+    const menuButton = document.querySelector(".mobile-menu-button");
+    const menu = document.querySelector(".mobile-menu-popover");
+    if (!nav || !items.length) return;
+
+    const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+    const homePage = currentPath === "/";
+    items.forEach(item => {
+      const href = item.getAttribute("href") || "";
+      const normalized = href.replace(/#.*$/, "").replace(/\/$/, "") || "/";
+      if ((homePage && href.startsWith("#")) || normalized === currentPath) {
+        item.classList.add("is-active");
+      }
+    });
+
+    const layoutPills = () => {
+      items.forEach(item => {
+        const circle = item.querySelector(".hover-circle");
+        if (!circle) return;
+
+        const rect = item.getBoundingClientRect();
+        const w = rect.width;
+        const h = rect.height;
+        const radius = ((w * w) / 4 + h * h) / (2 * h);
+        const diameter = Math.ceil(radius * 2) + 2;
+        const delta = Math.ceil(radius - Math.sqrt(Math.max(0, radius * radius - (w * w) / 4))) + 1;
+
+        circle.style.width = diameter + "px";
+        circle.style.height = diameter + "px";
+        circle.style.bottom = "-" + delta + "px";
+      });
+    };
+
+    items.forEach(item => {
+      item.addEventListener("mouseenter", () => item.classList.add("is-hovered"));
+      item.addEventListener("mouseleave", () => item.classList.remove("is-hovered"));
+    });
+
+    const setMenu = open => {
+      menuButton?.setAttribute("aria-expanded", String(open));
+      menu?.classList.toggle("is-open", open);
+      menuButton?.classList.toggle("is-open", open);
+    };
+
+    menuButton?.addEventListener("click", () => {
+      setMenu(menuButton.getAttribute("aria-expanded") !== "true");
+    });
+
+    document.addEventListener("click", event => {
+      if (!menu || !menuButton) return;
+      if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+        setMenu(false);
+      }
+    });
+
+    menu?.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => setMenu(false));
+    });
+
+    layoutPills();
+    window.addEventListener("resize", layoutPills, { passive: true });
+    document.fonts?.ready?.then(layoutPills).catch(() => {});
+  };
+
+  setupPillNav();
+
   const desktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   // React Bits-inspired Target Cursor.
