@@ -20,6 +20,17 @@ function validEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }
 
+function cleanPhone(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+
+  const compact = raw.replace(/[\s().-]/g, "");
+  if (/^0\d{8,14}$/.test(compact)) return "+254" + compact.slice(1);
+  if (/^254\d{8,14}$/.test(compact)) return "+" + compact;
+  if (/^\+\d{9,15}$/.test(compact)) return compact;
+  return null;
+}
+
 export default async (request, context) => {
   if (request.method === "OPTIONS") {
     return new Response(null, { status: 204 });
@@ -74,6 +85,11 @@ export default async (request, context) => {
     return json({ message: "Enter a valid email address." }, 400);
   }
 
+  const phone = cleanPhone(payload?.phone);
+  if (phone === null) {
+    return json({ message: "Enter a valid phone or landline number." }, 400);
+  }
+
   try {
     const response = await fetch("https://api.brevo.com/v3/contacts", {
       method: "POST",
@@ -84,6 +100,7 @@ export default async (request, context) => {
       },
       body: JSON.stringify({
         email,
+        ...(phone ? { attributes: { LANDLINE_NUMBER: phone } } : {}),
         listIds: [listId],
         updateEnabled: true,
       }),
