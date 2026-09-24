@@ -50,6 +50,7 @@ if (!hero || !canvas || window.matchMedia("(prefers-reduced-motion: reduce)").ma
     let viewportHeight = 20;
 
     const target = { x: 0, y: 0 };
+    const pointerTarget = { x: 0, y: 0 };
     const idleTarget = { x: 0, y: 0 };
     let pointerInsideHero = false;
     let pointerSeen = false;
@@ -135,8 +136,8 @@ if (!hero || !canvas || window.matchMedia("(prefers-reduced-motion: reduce)").ma
       const nx = THREE.MathUtils.clamp((event.clientX - rect.left) / rect.width, 0, 1);
       const ny = THREE.MathUtils.clamp((event.clientY - rect.top) / rect.height, 0, 1);
 
-      target.x = (nx - 0.5) * viewportWidth;
-      target.y = (0.5 - ny) * viewportHeight;
+      pointerTarget.x = (nx - 0.5) * viewportWidth;
+      pointerTarget.y = (0.5 - ny) * viewportHeight;
     }
 
     hero.addEventListener("pointerenter", event => {
@@ -162,11 +163,11 @@ if (!hero || !canvas || window.matchMedia("(prefers-reduced-motion: reduce)").ma
       const mesh = particleGroup.userData.mesh;
       if (!mesh) return;
 
-      const destination = pointerInsideHero ? target : idleTarget;
-      const idleEase = pointerInsideHero ? 0.11 : 0.045;
+      const destination = pointerInsideHero ? pointerTarget : idleTarget;
+      const ease = pointerInsideHero ? 0.075 : 0.045;
 
-      target.x += (destination.x - target.x) * idleEase;
-      target.y += (destination.y - target.y) * idleEase;
+      target.x += (destination.x - target.x) * ease;
+      target.y += (destination.y - target.y) * ease;
 
       const elapsed = now * 0.001;
 
