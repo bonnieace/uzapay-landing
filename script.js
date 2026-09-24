@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // React Bits-inspired Target Cursor.
   // Tracks the pointer globally, then frames CTA/button targets with four corners.
   if (motionOK && desktopPointer) {
+    document.documentElement.classList.add("target-cursor-enabled");
     const cursor = document.createElement("div");
     cursor.className = "target-cursor";
     cursor.setAttribute("aria-hidden", "true");
