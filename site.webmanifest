@@ -1,0 +1,10 @@
+{
+  "name":"UzaPay POS",
+  "short_name":"UzaPay",
+  "description":"Offline-first POS software for Kenyan businesses.",
+  "start_url":"/",
+  "display":"standalone",
+  "background_color":"#0c1510",
+  "theme_color":"#c8ff5f",
+  "icons":[{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml"}]
+}
