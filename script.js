@@ -21,11 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!nav || !items.length) return;
 
     const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
-    const homePage = currentPath === "/";
     items.forEach(item => {
       const href = item.getAttribute("href") || "";
       const normalized = href.replace(/#.*$/, "").replace(/\/$/, "") || "/";
-      if ((homePage && href.startsWith("#")) || normalized === currentPath) {
+      if (href.startsWith("/") && normalized === currentPath) {
         item.classList.add("is-active");
       }
     });
