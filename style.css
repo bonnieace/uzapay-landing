@@ -36,3 +36,6 @@ footer{background:#08100c;color:#eef4ed;padding:36px 0;border-top:1px solid #1d2
 @media(max-width:980px){.antigravity-canvas{width:58vw;height:390px;right:-30px;top:235px;opacity:.72}}
 @media(max-width:640px){.antigravity-canvas{width:96vw;height:300px;right:-22vw;top:350px;opacity:.52;mask-image:radial-gradient(ellipse at 64% 58%,#000 12%,rgba(0,0,0,.82) 42%,transparent 82%);-webkit-mask-image:radial-gradient(ellipse at 64% 58%,#000 12%,rgba(0,0,0,.82) 42%,transparent 82%)}}
 @media(prefers-reduced-motion:reduce){.antigravity-canvas{display:none}}
+
+.click-spark-canvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:10000;pointer-events:none;display:block}
+@media(prefers-reduced-motion:reduce){.click-spark-canvas{display:none}}
