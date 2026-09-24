@@ -11,9 +11,145 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".reveal").forEach(node => io.observe(node));
 
+  const motionOK = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const desktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  // React Bits-inspired Target Cursor.
+  // Tracks the pointer globally, then frames CTA/button targets with four corners.
+  if (motionOK && desktopPointer) {
+    const cursor = document.createElement("div");
+    cursor.className = "target-cursor";
+    cursor.setAttribute("aria-hidden", "true");
+    cursor.innerHTML = `
+      <span class="target-cursor-dot"></span>
+      <span class="target-cursor-corner tl"></span>
+      <span class="target-cursor-corner tr"></span>
+      <span class="target-cursor-corner br"></span>
+      <span class="target-cursor-corner bl"></span>
+    `;
+    document.body.appendChild(cursor);
+
+    const dot = cursor.querySelector(".target-cursor-dot");
+    const corners = [...cursor.querySelectorAll(".target-cursor-corner")];
+    const targetSelector = ".btn, .button, .nav-cta, button";
+    const cornerSize = 11;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let visualX = mouseX;
+    let visualY = mouseY;
+    let activeTarget = null;
+    let frame = 0;
+
+    const pointerMove = event => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+
+      const target = event.target instanceof Element
+        ? event.target.closest(targetSelector)
+        : null;
+
+      if (target !== activeTarget) {
+        activeTarget = target;
+        cursor.classList.toggle("is-targeting", Boolean(activeTarget));
+      }
+
+      const updateTarget = () => {
+        visualX += (mouseX - visualX) * 0.18;
+        visualY += (mouseY - visualY) * 0.18;
+
+        cursor.style.transform = `translate3d(${visualX}px,${visualY}px,0) translate(-50%,-50%)`;
+
+        if (activeTarget) {
+          const rect = activeTarget.getBoundingClientRect();
+          const cursorRect = cursor.getBoundingClientRect();
+
+          const left = rect.left - visualX;
+          const top = rect.top - visualY;
+          const right = rect.right - visualX - cornerSize;
+          const bottom = rect.bottom - visualY - cornerSize;
+
+          const positions = [
+            [left, top],
+            [right, top],
+            [right, bottom],
+            [left, bottom]
+          ];
+
+          corners.forEach((corner, index) => {
+            corner.style.transform = `translate3d(${positions[index][0]}px,${positions[index][1]}px,0)`;
+          });
+        } else {
+          const positions = [
+            [-cornerSize * 1.5, -cornerSize * 1.5],
+            [cornerSize * 0.5, -cornerSize * 1.5],
+            [cornerSize * 0.5, cornerSize * 0.5],
+            [-cornerSize * 1.5, cornerSize * 0.5]
+          ];
+
+          corners.forEach((corner, index) => {
+            corner.style.transform = `translate3d(${positions[index][0]}px,${positions[index][1]}px,0)`;
+          });
+        }
+
+        frame = requestAnimationFrame(updateTarget);
+      };
+
+      if (!frame) frame = requestAnimationFrame(updateTarget);
+    };
+
+    const pointerDown = event => {
+      if (!activeTarget) return;
+      cursor.classList.add("is-pressed");
+      if (dot) dot.style.transform = "translate(-50%,-50%) scale(.72)";
+    };
+
+    const pointerUp = () => {
+      cursor.classList.remove("is-pressed");
+      if (dot) dot.style.transform = "translate(-50%,-50%) scale(1)";
+    };
+
+    const leaveWindow = () => {
+      cursor.classList.remove("is-visible");
+      activeTarget = null;
+      cursor.classList.remove("is-targeting");
+    };
+
+    const enterWindow = () => {
+      cursor.classList.add("is-visible");
+    };
+
+    window.addEventListener("pointermove", event => {
+      if (event.pointerType !== "mouse" && event.pointerType !== "") return;
+      cursor.classList.add("is-visible");
+      pointerMove(event);
+    }, { passive: true });
+
+    window.addEventListener("pointerdown", pointerDown, { passive: true });
+    window.addEventListener("pointerup", pointerUp, { passive: true });
+    window.addEventListener("mouseout", event => {
+      if (!event.relatedTarget) leaveWindow();
+    }, { passive: true });
+    window.addEventListener("mouseover", enterWindow, { passive: true });
+
+    // Recompute target geometry while scrolling/resizing.
+    window.addEventListener("scroll", () => {
+      if (activeTarget) {
+        const event = new MouseEvent("mousemove", {
+          clientX: mouseX,
+          clientY: mouseY
+        });
+        pointerMove(event);
+      }
+    }, { passive: true });
+
+    requestAnimationFrame(() => {
+      cursor.classList.add("is-visible");
+    });
+  }
+
   // React Bits-inspired Click Spark, adapted for the static UzaPay site.
   // Uses a single fixed canvas so clicks can animate anywhere on the page.
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (motionOK) {
     const canvas = document.createElement("canvas");
     canvas.className = "click-spark-canvas";
     canvas.setAttribute("aria-hidden", "true");
@@ -50,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const draw = timestamp => {
       ctx.clearRect(0, 0, width, height);
-
       let active = false;
 
       for (let i = sparks.length - 1; i >= 0; i--) {
@@ -63,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         active = true;
-
         const progress = elapsed / settings.duration;
         const eased = easeOut(progress);
         const distance = eased * settings.sparkRadius;
