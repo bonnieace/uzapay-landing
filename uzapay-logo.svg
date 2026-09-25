@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" role="img" aria-labelledby="title desc">
+  <title id="title">UzaPay Logo</title>
+  <desc id="desc">UzaPay horizontal logo with icon mark and wordmark.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d8ff77"/>
+      <stop offset="100%" stop-color="#b6ef43"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#bg)"/>
+  <path fill="#0c1510" d="M20 16h8v19.5c0 5.1 1.7 7.7 5.1 7.7 3.4 0 5.1-2.6 5.1-7.7V16h8v19.8C46.2 45.3 41.5 50 33.1 50 24.7 50 20 45.3 20 35.8V16Z"/>
+  <path fill="#f7f9f4" d="M28.8 16h8.6c1.9 0 3.4 1.5 3.4 3.4v12.1c0 2.4-1.9 4.3-4.3 4.3h-6.8c-2.4 0-4.3-1.9-4.3-4.3V19.4c0-1.9 1.5-3.4 3.4-3.4Z"/>
+  <rect x="28.7" y="19.4" width="2.2" height="2.2" rx="0.7" fill="#0c1510"/>
+  <rect x="31.8" y="19.4" width="2.2" height="2.2" rx="0.7" fill="#0c1510"/>
+  <rect x="34.9" y="19.4" width="2.2" height="2.2" rx="0.7" fill="#0c1510"/>
+  <rect x="30" y="24.7" width="6.2" height="1.9" rx="0.95" fill="#0c1510" opacity="0.95"/>
+  <rect x="29.1" y="28.6" width="8" height="1.9" rx="0.95" fill="#0c1510" opacity="0.72"/>
+  <g font-family="'Space Grotesk','DM Sans',Arial,sans-serif" font-weight="700" font-size="38">
+    <text x="80" y="44" fill="#f7f9f4">Uza</text>
+    <text x="158" y="44" fill="#c8ff5f">Pay</text>
+  </g>
+</svg>
