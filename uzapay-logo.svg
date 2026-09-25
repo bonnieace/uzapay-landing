@@ -1,22 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" role="img" aria-labelledby="title desc">
-  <title id="title">UzaPay Logo</title>
-  <desc id="desc">UzaPay horizontal logo with icon mark and wordmark.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 292 72" role="img" aria-labelledby="title desc">
+  <title id="title">UzaPay</title>
+  <desc id="desc">UzaPay logo with lime U mark, off-white Uza, and lime Pay.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#d8ff77"/>
-      <stop offset="100%" stop-color="#b6ef43"/>
+    <linearGradient id="g" x1="12" y1="10" x2="58" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D8FF77"/>
+      <stop offset=".55" stop-color="#C8FF5F"/>
+      <stop offset="1" stop-color="#98D938"/>
+    </linearGradient>
+    <linearGradient id="shade" x1="22" y1="50" x2="52" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C8FF5F" stop-opacity=".05"/>
+      <stop offset="1" stop-color="#0C1510" stop-opacity=".42"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="18" fill="url(#bg)"/>
-  <path fill="#0c1510" d="M20 16h8v19.5c0 5.1 1.7 7.7 5.1 7.7 3.4 0 5.1-2.6 5.1-7.7V16h8v19.8C46.2 45.3 41.5 50 33.1 50 24.7 50 20 45.3 20 35.8V16Z"/>
-  <path fill="#f7f9f4" d="M28.8 16h8.6c1.9 0 3.4 1.5 3.4 3.4v12.1c0 2.4-1.9 4.3-4.3 4.3h-6.8c-2.4 0-4.3-1.9-4.3-4.3V19.4c0-1.9 1.5-3.4 3.4-3.4Z"/>
-  <rect x="28.7" y="19.4" width="2.2" height="2.2" rx="0.7" fill="#0c1510"/>
-  <rect x="31.8" y="19.4" width="2.2" height="2.2" rx="0.7" fill="#0c1510"/>
-  <rect x="34.9" y="19.4" width="2.2" height="2.2" rx="0.7" fill="#0c1510"/>
-  <rect x="30" y="24.7" width="6.2" height="1.9" rx="0.95" fill="#0c1510" opacity="0.95"/>
-  <rect x="29.1" y="28.6" width="8" height="1.9" rx="0.95" fill="#0c1510" opacity="0.72"/>
-  <g font-family="'Space Grotesk','DM Sans',Arial,sans-serif" font-weight="700" font-size="38">
-    <text x="80" y="44" fill="#f7f9f4">Uza</text>
-    <text x="158" y="44" fill="#c8ff5f">Pay</text>
+  <g>
+    <path fill="url(#g)" d="M13 12.5c0-2.1 2.3-3.4 4.1-2.3l7.4 4.3c4.5 2.6 7.3 7.4 7.3 12.6v15.7c0 4 2.2 6.5 5.7 6.5 3.6 0 5.8-2.5 5.8-6.5V24.1c0-5.3 2.8-10.2 7.4-12.8l4.3-2.5c1.8-1 4 .3 4 2.3v31.8C59 56 51.1 63 37.5 63 22.7 63 13 55.3 13 42.8V12.5Z"/>
+    <path fill="url(#shade)" d="M15 50.8c4.1 8 11.7 12.2 22.4 12.2 10.9 0 18.4-4.5 21-13.2-5.9 5-12.7 7.3-20.5 6.9-8.4-.5-15.9-2.6-22.9-5.9Z"/>
+    <path fill="#C8FF5F" d="M31.5 28.1c0-1.3 1.4-2.1 2.5-1.4l11.1 6.5c1.1.6 1.1 2.2 0 2.9L34 42.6c-1.1.7-2.5-.1-2.5-1.4V28.1Z"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" letter-spacing="-2">
+    <text x="78" y="49" fill="#F7F9F4">Uza</text>
+    <text x="154" y="49" fill="#C8FF5F">Pay</text>
   </g>
 </svg>
