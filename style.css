@@ -222,3 +222,44 @@ footer{background:#08100c;color:#eef4ed;padding:36px 0;border-top:1px solid #1d2
   .hero-product h1{font-size:clamp(44px,13vw,56px)}
   .hero-media{width:calc(100% - 20px);border-radius:20px}
 }
+
+
+/* Hero copy legibility polish — keeps the approved artwork untouched */
+.hero-product .hero-copy-panel{
+  position:relative;
+}
+.hero-product .hero-copy-panel::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:-34px -44px -36px -38px;
+  border-radius:34px;
+  background:
+    radial-gradient(ellipse at 28% 44%,rgba(4,9,6,.78) 0%,rgba(4,9,6,.62) 48%,rgba(4,9,6,.26) 72%,transparent 100%);
+  filter:blur(2px);
+  pointer-events:none;
+}
+.hero-product .hero-copy{
+  color:rgba(255,255,255,.94);
+  font-weight:500;
+  text-shadow:0 2px 20px rgba(0,0,0,.72);
+}
+.hero-product .eyebrow{
+  color:rgba(255,255,255,.76);
+  text-shadow:0 2px 16px rgba(0,0,0,.64);
+}
+.hero-product .hero-note{
+  color:rgba(255,255,255,.68);
+  text-shadow:0 2px 14px rgba(0,0,0,.58);
+}
+.hero-product h1{
+  text-shadow:0 4px 34px rgba(0,0,0,.66);
+}
+@media(max-width:720px){
+  .hero-product .hero-copy-panel::before{display:none}
+  .hero-product .hero-copy{
+    color:rgba(255,255,255,.92);
+    text-shadow:none;
+  }
+  .hero-product .eyebrow,.hero-product .hero-note{ text-shadow:none; }
+}
