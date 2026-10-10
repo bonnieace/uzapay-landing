@@ -1,15 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const io = new IntersectionObserver(
-    entries => entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("on");
-        io.unobserve(entry.target);
-      }
-    }),
-    { threshold: 0.12 }
-  );
-
-  document.querySelectorAll(".reveal").forEach(node => io.observe(node));
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      entries => entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("on");
+          io.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll(".reveal").forEach(node => io.observe(node));
+  }
 
   // Pill Nav interaction applied only to the existing right-side navigation links.
   const setupNavPills = () => {
